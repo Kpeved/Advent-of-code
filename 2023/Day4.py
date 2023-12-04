@@ -245,3 +245,36 @@ for line in value_lines:
         sum +=2 ** (line_power-1)
         
 print(str(sum))
+
+
+# Part 2
+
+value_lines = input.split('\n')
+total_cards = len(value_lines)
+line_counters = [1] * total_cards
+
+for i,line in enumerate(value_lines):
+    f_line = line.replace('  ',' ')
+    card_number = f_line.split(': ')[0].split(' ')[1]
+    
+    all_numbers = f_line.split(': ')[1].split(' | ')
+    win_numbers = all_numbers[0].split(' ')
+    participant_numbers = all_numbers[1].split(' ')
+    
+    win_set = set(win_numbers)
+    print(f"---Card# {str(card_number)}")
+    print(f"Winning set {str(win_set)}")
+    print(f"Participant numbers: {str(participant_numbers)}")
+    print(f"Cards counted: {str(line_counters[i])}")
+    
+    counter = 0 
+    for number in participant_numbers :
+        if number in win_set :
+            print(f"    number {number} in win_set")
+            counter += 1
+    
+    for j in range(counter):
+        line_counters[min(i+j+1,total_cards-1)] += line_counters[i]
+
+        
+print(str(sum(line_counters)))
